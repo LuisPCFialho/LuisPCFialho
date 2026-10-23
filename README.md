@@ -18,6 +18,10 @@ object LuisFialho {
 ```
 
 <p align="center">
+  <img src="assets/dividers/formation.svg" width="100%" alt="">
+</p>
+
+<p align="center">
   <img src="assets/sections/featured.svg" width="100%" alt="Featured apps">
 </p>
 
@@ -44,11 +48,19 @@ object LuisFialho {
 </p>
 
 <p align="center">
+  <img src="assets/dividers/delivery.svg" width="100%" alt="">
+</p>
+
+<p align="center">
   <img src="assets/sections/apps.svg" width="100%" alt="More apps &amp; games">
 </p>
 <p align="center">
   <a href="https://github.com/LuisPCFialho/drone-tycoon-idle"><img src="assets/cards/drone-tycoon.svg" width="49%" alt="Drone Tycoon: Sky Fleet"></a>
   <a href="https://github.com/LuisPCFialho/luisolingo-releases"><img src="assets/cards/luisolingo.svg" width="49%" alt="LuisOlingo"></a>
+</p>
+
+<p align="center">
+  <img src="assets/dividers/survey.svg" width="100%" alt="">
 </p>
 
 <p align="center">
@@ -60,6 +72,10 @@ object LuisFialho {
 </p>
 <p align="center">
   <a href="https://github.com/LuisPCFialho/recortar-obj-webodm-app"><img src="assets/cards/recortar-obj.svg" width="49%" alt="RecortarOBJ for WebODM"></a>
+</p>
+
+<p align="center">
+  <img src="assets/dividers/pair.svg" width="100%" alt="">
 </p>
 
 <p align="center">
@@ -75,12 +91,20 @@ object LuisFialho {
 </p>
 
 <p align="center">
+  <img src="assets/dividers/trail.svg" width="100%" alt="">
+</p>
+
+<p align="center">
   <img src="assets/sections/stack.svg" width="100%" alt="Tech stack">
 </p>
 <p align="center">
   <img src="https://skillicons.dev/icons?i=kotlin,androidstudio,flutter,dart,godot,ts,react,nextjs,tailwind&perline=9" alt="Kotlin, Android Studio, Flutter, Dart, Godot, TypeScript, React, Next.js, Tailwind">
   <br>
   <img src="https://skillicons.dev/icons?i=python,fastapi,rust,tauri,supabase,threejs,nodejs,vercel,githubactions&perline=9" alt="Python, FastAPI, Rust, Tauri, Supabase, Three.js, Node.js, Vercel, GitHub Actions">
+</p>
+
+<p align="center">
+  <img src="assets/dividers/patrol.svg" width="100%" alt="">
 </p>
 
 <p align="center">
