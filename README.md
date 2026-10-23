@@ -100,4 +100,8 @@ object LuisFialho {
   </picture>
 </p>
 
+<p align="center">
+  <img src="assets/footer.svg" width="100%" alt="Thanks for stopping by - see you in the next commit">
+</p>
+
 <p align="center"><sub>Hand-made SVGs · stats, 3D graph and snake refreshed daily by GitHub Actions</sub></p>

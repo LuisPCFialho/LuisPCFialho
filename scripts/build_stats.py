@@ -171,14 +171,20 @@ def render(days, langs, today):
     tw, gap, ty, th = 272, 16, 64, 112
     for i, (label, num, unit, acc) in enumerate(tiles):
         x = 32 + i * (tw + gap)
+        d0 = .2 + i * .18
+        parts.append(f'<g><animate attributeName="opacity" values="0;1" dur=".7s" begin="{d0}s" fill="freeze"/>'
+                     f'<animateTransform attributeName="transform" type="translate" values="0 14;0 0" dur=".7s" begin="{d0}s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".2 .8 .3 1"/>')
         parts.append(f'<rect x="{x}" y="{ty}" width="{tw}" height="{th}" rx="16" fill="#111A26" stroke="#1C2735"/>')
-        parts.append(f'<circle cx="{x + tw - 24}" cy="{ty + 24}" r="10" fill="{acc}" fill-opacity=".14"/>'
+        parts.append(f'<circle cx="{x + tw - 24}" cy="{ty + 24}" r="10" fill="{acc}" fill-opacity=".14">'
+                     f'<animate attributeName="r" values="8;14;8" dur="2.6s" begin="{i * .5}s" repeatCount="indefinite"/>'
+                     f'<animate attributeName="fill-opacity" values=".22;.05;.22" dur="2.6s" begin="{i * .5}s" repeatCount="indefinite"/></circle>'
                      f'<circle cx="{x + tw - 24}" cy="{ty + 24}" r="4.5" fill="{acc}"/>')
         parts.append(T.draw("disp7", num, x + 22, ty + 66, 46, "#F2F6FA", tracking=-.5))
         if unit:
             nw = T.width("disp7", num, 46, -.5)
             parts.append(T.draw("sans5", unit, x + 22 + nw + 9, ty + 66, 16, "#8796A8"))
         parts.append(T.draw("sans5", label, x + 22, ty + 94, 14, "#8796A8"))
+        parts.append('</g>')
 
     # languages
     items = sorted(((k, v) for k, v in langs.items() if k not in SKIP_LANGS and v > 0), key=lambda kv: -kv[1])
@@ -198,7 +204,9 @@ def render(days, langs, today):
     for i, (name, share, col) in enumerate(segs):
         w = bw * share
         last = i == len(segs) - 1
-        bar.append(f'<rect x="{x:.1f}" y="{by}" width="{max(w - (0 if last else 3), 1):.1f}" height="{bh}" fill="{col}"/>')
+        ww = max(w - (0 if last else 3), 1)
+        bar.append(f'<rect x="{x:.1f}" y="{by}" width="{ww:.1f}" height="{bh}" fill="{col}">'
+                   f'<animate attributeName="width" values="0;{ww:.1f}" dur="1.1s" begin="{.9 + i * .15:.2f}s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".2 .8 .3 1"/></rect>')
         x += w
     parts.append(f'<g clip-path="url(#bar)">{"".join(bar)}</g>')
 
@@ -221,8 +229,15 @@ def render(days, langs, today):
         f'<defs>{T.defs()}<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">'
         f'<stop offset="0" stop-color="#0F1722"/><stop offset="1" stop-color="#0A1018"/></linearGradient></defs>'
         f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="22" fill="url(#bg)" stroke="#1C2735" stroke-width="1.5"/>'
-        f'{"".join(parts)}</svg>\n'
+        f'{"".join(parts)}{comet(W, H, 22, "#FFB547")}</svg>\n'
     )
+
+
+def comet(W, H, rx, color, dur=13, length=45, width=1.6):
+    anim = f'<animate attributeName="stroke-dashoffset" from="1000" to="0" dur="{dur}s" repeatCount="indefinite"/>'
+    r = f'x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="{rx}" fill="none" stroke="{color}" pathLength="1000" stroke-linecap="round"'
+    return (f'<rect {r} stroke-opacity=".22" stroke-width="{width * 4}" stroke-dasharray="{length * 1.4:.0f} {1000 - length * 1.4:.0f}">{anim}</rect>'
+            f'<rect {r} stroke-width="{width}" stroke-dasharray="{length} {1000 - length}">{anim}</rect>')
 
 
 def main():
