@@ -57,7 +57,41 @@ def fetch_online(user, token):
     for repo in u["repositories"]["nodes"]:
         for e in repo["languages"]["edges"]:
             langs[e["node"]["name"]] = langs.get(e["node"]["name"], 0) + e["size"]
+    html_days = fetch_calendar_html(user)
+    if html_days:
+        days = html_days
     return days, langs
+
+
+def fetch_calendar_html(user):
+    """Public contributions calendar, which includes private contributions when the
+    profile shows them (the API with GITHUB_TOKEN only sees public ones)."""
+    import re
+    try:
+        req = urllib.request.Request(f"https://github.com/users/{user}/contributions",
+                                     headers={"User-Agent": "profile-stats"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            html = r.read().decode("utf-8", "replace")
+    except Exception as e:  # noqa: BLE001
+        print(f"calendar html unavailable: {e}")
+        return None
+    tips = {}
+    for m in re.finditer(r'<tool-tip\b[^>]*\bfor="([^"]+)"[^>]*>([^<]*)</tool-tip>', html):
+        n = re.match(r"\s*([\d,]+) contribution", m.group(2))
+        tips[m.group(1)] = int(n.group(1).replace(",", "")) if n else 0
+    cells = []
+    for m in re.finditer(r"<td\b[^>]*>", html):
+        tag = m.group(0)
+        d = re.search(r'data-date="(\d{4}-\d{2}-\d{2})"', tag)
+        i = re.search(r'\bid="([^"]+)"', tag)
+        if d and i:
+            cells.append((d.group(1), tips.get(i.group(1), 0)))
+    if len(cells) < 300 or not tips:
+        print(f"calendar html parse failed ({len(cells)} days, {len(tips)} tips)")
+        return None
+    cells.sort()
+    print(f"calendar html: {len(cells)} days, {sum(c for _, c in cells)} contributions")
+    return [c for _, c in cells]
 
 
 def fetch_offline(contrib_path, langs_path):
